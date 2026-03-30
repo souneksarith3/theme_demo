@@ -26,19 +26,23 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               spacing: 10,
               children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  child: Icon(Icons.flutter_dash_outlined, size: 60,),
+                ),
                 Text("Welcome to Supabase", style: AppTheme.lightTheme.textTheme.headlineLarge,),
                 Text("Your best sulution to manage your project"),
               ],
             ),
           ),
           Container(
-            height: 50,
             width: double.infinity,
             padding: EdgeInsets.only(left: 50, right: 50),
             child: Flexible(
-              child: Row(
+              child: Column(
                 mainAxisAlignment: .spaceBetween,
-                spacing: 0,
+                spacing: 10,
                 children: [
                   ElevatedButton(
                     onPressed: () {
@@ -48,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                    ElevatedButton(
                     onPressed: () {
-                      
+                      Get.toNamed(RouteName.signIn);
                     },
                     child: Text("Log In"),
                   ),

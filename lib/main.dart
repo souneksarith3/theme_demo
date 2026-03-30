@@ -6,14 +6,12 @@ import 'package:theme_demo/config/routes/app_pages.dart';
 import 'package:theme_demo/config/routes/route_name.dart';
 import 'package:theme_demo/config/themes/app_theme.dart';
 
-
 void main() async {
-  // final String? URL = dotenv.env["URL"];
-  // final String? KEY = dotenv.env["KEY"];
-  // await Supabase.initialize(
-  //   url: URL!,
-  //   anonKey: KEY!,
-  // );
+  await Supabase.initialize(
+    anonKey:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4YmVzcGF0dWVrdXBkb214c2xhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0NTEwMjQsImV4cCI6MjA5MDAyNzAyNH0.DylWwMibE4evZs6DbAI4BO9MSi7SwNSrmvoCX0Q6hW4",
+    url: "https://dxbespatuekupdomxsla.supabase.co",
+  );
   runApp(const MyApp());
 }
 

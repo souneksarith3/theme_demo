@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:theme_demo/config/routes/route_name.dart';
 import 'package:theme_demo/config/themes/app_theme.dart';
 import 'package:theme_demo/controller/home_controller.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,7 @@ class SignUp extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(20),
-            height: 720,
+            height: 750,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(top: Radius.circular(34)),
@@ -39,13 +40,23 @@ class SignUp extends StatelessWidget {
               child: Column(
                 spacing: 20,
                 children: [
-                  const SizedBox(height: 20),
+                  Container(
+                    width: double.infinity,
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        Get.toNamed(RouteName.home);
+                      },
+                      icon: Icon(Icons.arrow_back),
+                    ),
+                  ),
                   Text(
                     "Get Started",
                     style: AppTheme.lightTheme.textTheme.headlineLarge,
                   ),
-                  const SizedBox(height: 10),
                   TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: controller.ctlGmail,
                     decoration: InputDecoration(
                       label: Text(
                         "Gmail",
@@ -54,6 +65,7 @@ class SignUp extends StatelessWidget {
                     ),
                   ),
                   TextFormField(
+                    controller: controller.ctlPassword,
                     decoration: InputDecoration(
                       label: Text(
                         "Password",
@@ -62,6 +74,7 @@ class SignUp extends StatelessWidget {
                     ),
                   ),
                   TextFormField(
+                    controller: controller.ctlConfirm,
                     decoration: InputDecoration(
                       label: Text(
                         "Confirm Password",
@@ -85,6 +98,24 @@ class SignUp extends StatelessWidget {
                         ),
                         Text("I agree to send my informaton"),
                       ],
+                    ),
+                  ),
+                  MaterialButton(
+                    onPressed: () {},
+                    color: AppTheme.primaryLight,
+                    minWidth: double.infinity,
+                    height: 45,
+                    elevation: 1,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(14)),
+                    ),
+                    child: Text(
+                      "Sign up",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: AppTheme.fontFamily,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -131,7 +162,9 @@ class SignUp extends StatelessWidget {
                   ),
                   TextButton(
                     clipBehavior: Clip.none,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(RouteName.signIn);
+                    },
                     child: Text(
                       "Already have account?",
                       style: TextStyle(

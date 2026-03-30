@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RTextField extends StatelessWidget {
-  RTextField({super.key, this.controller});
+class rTextField extends StatelessWidget {
+  rTextField({super.key, this.controller});
 
   TextEditingController? controller = TextEditingController();
 
