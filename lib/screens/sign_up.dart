@@ -8,6 +8,7 @@ class SignUp extends StatelessWidget {
   SignUp({super.key});
 
   final HomeController controller = Get.put(HomeController());
+
   final List<IconData> IconsList = [
     Icons.apple,
     Icons.facebook,
@@ -54,34 +55,7 @@ class SignUp extends StatelessWidget {
                     "Get Started",
                     style: AppTheme.lightTheme.textTheme.headlineLarge,
                   ),
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: controller.ctlGmail,
-                    decoration: InputDecoration(
-                      label: Text(
-                        "Gmail",
-                        style: AppTheme.lightTheme.textTheme.bodyMedium,
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: controller.ctlPassword,
-                    decoration: InputDecoration(
-                      label: Text(
-                        "Password",
-                        style: AppTheme.lightTheme.textTheme.bodyMedium,
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: controller.ctlConfirm,
-                    decoration: InputDecoration(
-                      label: Text(
-                        "Confirm Password",
-                        style: AppTheme.lightTheme.textTheme.bodyMedium,
-                      ),
-                    ),
-                  ),
+                  _buildForm(),
                   Obx(
                     () => Row(
                       children: [
@@ -101,7 +75,6 @@ class SignUp extends StatelessWidget {
                     ),
                   ),
                   MaterialButton(
-                    onPressed: () {},
                     color: AppTheme.primaryLight,
                     minWidth: double.infinity,
                     height: 45,
@@ -109,6 +82,13 @@ class SignUp extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(14)),
                     ),
+                    onPressed: () {
+                      Get.defaultDialog(
+                        textConfirm: "OK",
+                        title: "Validated",
+                        middleText: "Success to login",
+                      );
+                    },
                     child: Text(
                       "Sign up",
                       style: TextStyle(
@@ -145,21 +125,7 @@ class SignUp extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Row(
-                    spacing: 5,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(
-                      IconsList.length,
-                      (index) => IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          IconsList[index],
-                          color: AppTheme.primaryLight,
-                          size: 40,
-                        ),
-                      ),
-                    ),
-                  ),
+                  _buildIconList(),
                   TextButton(
                     clipBehavior: Clip.none,
                     onPressed: () {
@@ -174,6 +140,95 @@ class SignUp extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIconList() {
+    return Row(
+      spacing: 5,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: List.generate(
+        IconsList.length,
+        (index) => IconButton(
+          onPressed: () {},
+          icon: Icon(IconsList[index], color: AppTheme.primaryLight, size: 40),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildForm() {
+    return Form(
+      key: controller.formKey.value,
+      child: Column(
+        spacing: 15,
+        children: [
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            controller: controller.ctlGmail,
+            validator: (value) {
+              if (value == null ||
+                  value.isEmail == false ||
+                  value.isEmpty == true) {
+                return "Please enter with email conten";
+              } else {
+                return null;
+              }
+            },
+            decoration: InputDecoration(
+              label: Text(
+                "Gmail",
+                style: AppTheme.lightTheme.textTheme.bodyMedium,
+              ),
+            ),
+          ),
+          Obx(
+            () => TextFormField(
+              controller: controller.ctlPassword,
+              obscureText: controller.getPassShow,
+              validator: (value) {
+                if (value == null || value.isEmpty == true) {
+                  return "Please enter with email conten";
+                } else {
+                  return null;
+                }
+              },
+              decoration: InputDecoration(
+                label: Text(
+                  "Password",
+                  style: AppTheme.lightTheme.textTheme.bodyMedium,
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    controller.getPassShow == true
+                        ? controller.setPassShow(false)
+                        : controller.setPassShow(true);
+                  },
+                  icon: controller.getPassShow == true
+                      ? Icon(Icons.visibility_off)
+                      : Icon(Icons.visibility),
+                ),
+              ),
+            ),
+          ),
+          TextFormField(
+            controller: controller.ctlConfirm,
+            validator: (value) {
+              if (value == null || value.isEmpty == true) {
+                return "Please enter with email conten";
+              } else {
+                return null;
+              }
+            },
+            decoration: InputDecoration(
+              label: Text(
+                "Confirm Password",
+                style: AppTheme.lightTheme.textTheme.bodyMedium,
               ),
             ),
           ),
