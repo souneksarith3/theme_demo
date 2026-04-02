@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:theme_demo/config/routes/route_name.dart';
 import 'package:theme_demo/config/themes/app_theme.dart';
 import 'package:theme_demo/controller/home_controller.dart';
@@ -82,12 +83,37 @@ class SignUp extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(14)),
                     ),
-                    onPressed: () {
-                      Get.defaultDialog(
-                        textConfirm: "OK",
-                        title: "Validated",
-                        middleText: "Success to login",
-                      );
+                    onPressed: () async {
+                      // Get.defaultDialog(
+                      //   textConfirm: "OK",
+                      //   title: "Validated",
+                      //   middleText: "Success to login",
+                      // );
+                      if (controller.formKey.value.currentState!.validate() ==
+                          true) {
+                        final rs = await controller.signUp(
+                          email: controller.ctlGmail.text.trim(),
+                          password: controller.ctlPassword.text.trim(),
+                        );
+                        if (rs != null) {
+                          Get.snackbar(
+                            "Sign in success",
+                            "",
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
+                          controller.ctlConfirm.text = "";
+                          controller.ctlPassword.text = "";
+                          controller.ctlGmail.text = "";
+                          controller.setIsChecked(false);
+                          Get.offNamed(RouteName.profile);
+                        } else {
+                          Get.snackbar(
+                            "Error: ",
+                            "Sign up failed",
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
+                        }
+                      }
                     },
                     child: Text(
                       "Sign up",
@@ -193,7 +219,7 @@ class SignUp extends StatelessWidget {
               obscureText: controller.getPassShow,
               validator: (value) {
                 if (value == null || value.isEmpty == true) {
-                  return "Please enter with email conten";
+                  return "Please enter confirm password";
                 } else {
                   return null;
                 }
@@ -220,7 +246,7 @@ class SignUp extends StatelessWidget {
             controller: controller.ctlConfirm,
             validator: (value) {
               if (value == null || value.isEmpty == true) {
-                return "Please enter with email conten";
+                return "Please enter confirm password";
               } else {
                 return null;
               }

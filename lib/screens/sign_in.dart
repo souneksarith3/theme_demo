@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:theme_demo/config/routes/route_name.dart';
 import 'package:theme_demo/config/themes/app_theme.dart';
+import 'package:theme_demo/controller/home_controller.dart';
 
 class SignIn extends StatelessWidget {
   SignIn({super.key});
+
+  final controller = Get.put(HomeController());
 
   final List<IconData> IconsList = [
     Icons.apple,
@@ -53,52 +56,7 @@ class SignIn extends StatelessWidget {
                     style: AppTheme.lightTheme.textTheme.headlineLarge,
                   ),
                   const SizedBox(height: 10),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      label: Text(
-                        "Username or Gmail",
-                        style: AppTheme.lightTheme.textTheme.bodyMedium,
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      label: Text(
-                        "Password",
-                        style: AppTheme.lightTheme.textTheme.bodyMedium,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(value: false, onChanged: (value) {}),
-                      Text(
-                        "Show password",
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontFamily,
-                          fontSize: 14,
-                          color: Colors.grey.shade800,
-                        ),
-                      ),
-                    ],
-                  ),
-                  MaterialButton(
-                    color: AppTheme.primaryLight,
-                    minWidth: double.infinity,
-                    height: 45,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(14)),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      "Log in",
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontFamily,
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                  _buildForm(),
                   SizedBox(
                     height: 50,
                     child: Row(
@@ -156,6 +114,69 @@ class SignIn extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildForm() {
+    return Form(
+      key: controller.loginFormKey.value,
+      child: Row(
+        children: [
+          TextFormField(
+            controller: controller.ctlPassword,
+            decoration: InputDecoration(
+              label: Text(
+                "Username or Gmail",
+                style: AppTheme.lightTheme.textTheme.bodyMedium,
+              ),
+            ),
+          ),
+          TextFormField(
+            controller: controller.ctlPassword,
+            decoration: InputDecoration(
+              label: Text(
+                "Password",
+                style: AppTheme.lightTheme.textTheme.bodyMedium,
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              Checkbox(value: false, onChanged: (value) {}),
+              Text(
+                "Show password",
+                style: TextStyle(
+                  fontFamily: AppTheme.fontFamily,
+                  fontSize: 14,
+                  color: Colors.grey.shade800,
+                ),
+              ),
+            ],
+          ),
+          MaterialButton(
+            color: AppTheme.primaryLight,
+            minWidth: double.infinity,
+            height: 45,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(14)),
+            ),
+            onPressed: () async {
+              final r = await controller.logIn(
+                password: controller.ctlGmail.text.trim(),
+                email: controller.ctlGmail.text.trim(),
+              );
+            },
+            child: Text(
+              "Log in",
+              style: TextStyle(
+                fontFamily: AppTheme.fontFamily,
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
