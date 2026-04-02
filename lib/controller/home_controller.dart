@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeController extends GetxController {
   final _isChecked = false.obs;
+  final _passShow = false.obs;
+  final formKey = GlobalKey<FormState>().obs;
+
+  static final isLoading = false.obs;
   final ctlGmail = TextEditingController();
   final ctlPassword = TextEditingController();
   final ctlConfirm = TextEditingController();
 
+
+  final supabase = Supabase.instance.client;
+  final AuthService _authService = AuthService();
+
   bool get getIsChecked => _isChecked.value;
   void setIsChecked(bool value) {
-    if (ctlGmail.text.isEmpty &&
-        ctlPassword.text.isEmpty &&
-        ctlConfirm.text.isEmpty) {
+    if(ctlGmail.text.length < 1 && ctlPassword.text.length < 1 && ctlConfirm.text.length < 1){
       _isChecked.value = false;
     } else {
       if (ctlPassword.text == ctlConfirm.text) {
@@ -21,11 +26,5 @@ class HomeController extends GetxController {
         _isChecked.value = false;
       }
     }
-  }
-
-  Future<void> login({String? username, String? password}) async {}
-
-  Future<bool> signUp({String? username, String? password}) async {
-    return false;
   }
 }
