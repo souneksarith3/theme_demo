@@ -5,13 +5,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:theme_demo/config/routes/app_pages.dart';
 import 'package:theme_demo/config/routes/route_name.dart';
 import 'package:theme_demo/config/themes/app_theme.dart';
+import 'package:theme_demo/controller/home_controller.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
     anonKey:
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4YmVzcGF0dWVrdXBkb214c2xhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0NTEwMjQsImV4cCI6MjA5MDAyNzAyNH0.DylWwMibE4evZs6DbAI4BO9MSi7SwNSrmvoCX0Q6hW4",
     url: "https://dxbespatuekupdomxsla.supabase.co",
   );
+  Get.put(HomeController());
   runApp(const MyApp());
 }
 
