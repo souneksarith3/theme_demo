@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:theme_demo/config/themes/app_theme.dart';
 import 'package:theme_demo/controller/home_controller.dart';
 import 'package:get/get.dart';
+import 'package:theme_demo/controller/student_controller.dart';
 
 class navBar {
   String title;
@@ -11,7 +12,7 @@ class navBar {
 
 class Profile extends StatelessWidget {
   Profile({super.key});
-  final controller = Get.put(HomeController());
+  final stdController = Get.put(StudentController());
 
   final List<navBar> _navBarList = [
     navBar(title: "Student", icon: Icons.people),
@@ -23,7 +24,11 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppbar(),
-      body: _buildBody(),
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: _buildPageView(),
+      ),
       bottomNavigationBar: _buildNavBar(),
     );
   }
@@ -35,17 +40,10 @@ class Profile extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() {
-    return Container(
-      padding: EdgeInsets.all(18),
-      //child: Text(controller.session()),
-    );
-  }
-
   Widget _buildNavBar() {
     return Container(
       clipBehavior: Clip.antiAlias,
-      height: 70,
+      height: 76,
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppTheme.primaryLight,
@@ -64,24 +62,36 @@ class Profile extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: controller.currentIndex.value == index
-                      ? Colors.purple.shade300
+                  color: stdController.getCurrentIndex == index
+                      ? Colors.white
                       : Colors.transparent,
                   borderRadius: BorderRadius.all(Radius.circular(24)),
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    controller.currentIndex.value = index;
-                    print(controller.currentIndex.toString());
+                    stdController.setCurrentIndex(index);
+                    print(stdController.currentIndex.toString());
+                    stdController.pgController.animateToPage(
+                      stdController.getCurrentIndex,
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.linear,
+                    );
                   },
                   child: Column(
                     children: [
-                      Icon(_navBarList[index].icon, color: Colors.white),
+                      Icon(
+                        _navBarList[index].icon,
+                        color: stdController.getCurrentIndex == index
+                            ? Colors.black
+                            : Colors.white,
+                      ),
                       Text(
                         _navBarList[index].title,
                         style: TextStyle(
                           fontFamily: AppTheme.fontFamily,
-                          color: Colors.white,
+                          color: stdController.getCurrentIndex == index
+                              ? Colors.black
+                              : Colors.white,
                         ),
                       ),
                     ],
@@ -92,6 +102,82 @@ class Profile extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPageView() {
+    return PageView(
+      controller: stdController.pgController,
+      onPageChanged: (value) {
+        print("${stdController.pgController}: ${value.toString()}");
+        stdController.setCurrentIndex(value);
+      },
+      children: [
+        Container(
+          padding: EdgeInsets.all(18),
+          child: ListView(
+            children: List.generate(
+              stdController.studentList.length,
+              (index) => GestureDetector(
+                onTap: () {
+                  print(index.toString());
+                },
+                child: Container(
+                  padding: EdgeInsets.all(4),
+                  width: double.infinity,
+                  height: 100,
+                  decoration: BoxDecoration(color: Colors.amber),
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 4,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            width: 200,
+                            height: 40,
+                            child: Text(
+                              "${stdController.getStudentList()[index].id}",
+                            ),
+                          ),
+                          Container(
+                            color: Colors.white,
+                            width: 200,
+                            height: 40,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            width: 200,
+                            height: 40,
+                          ),
+                          Container(
+                            color: Colors.white,
+                            width: 200,
+                            height: 40,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(child: Text("Page index 1")),
+        Container(child: Text("Page index 2")),
+      ],
     );
   }
 }
