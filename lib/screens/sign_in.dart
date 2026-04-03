@@ -124,7 +124,13 @@ class SignIn extends StatelessWidget {
       child: Row(
         children: [
           TextFormField(
-            controller: controller.ctlPassword,
+            //controller: controller.ctlPassword,
+            validator: (value) {
+              if (value == null || value.isEmail == false) {
+                return "Please enter email content";
+              }
+              return null;
+            },
             decoration: InputDecoration(
               label: Text(
                 "Username or Gmail",
@@ -132,12 +138,33 @@ class SignIn extends StatelessWidget {
               ),
             ),
           ),
-          TextFormField(
-            controller: controller.ctlPassword,
-            decoration: InputDecoration(
-              label: Text(
-                "Password",
-                style: AppTheme.lightTheme.textTheme.bodyMedium,
+          Obx(
+            () => TextFormField(
+              //controller: controller.ctlPassword,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter password";
+                }
+                return null;
+              },
+              obscureText: controller.getPassShow,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    controller.getPassShow == true
+                        ? controller.setPassShow(false)
+                        : controller.setPassShow(true);
+                  },
+                  icon: Icon(
+                    controller.getPassShow == true
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                ),
+                label: Text(
+                  "Password",
+                  style: AppTheme.lightTheme.textTheme.bodyMedium,
+                ),
               ),
             ),
           ),
@@ -162,10 +189,14 @@ class SignIn extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(14)),
             ),
             onPressed: () async {
-              final r = await controller.logIn(
-                password: controller.ctlGmail.text.trim(),
-                email: controller.ctlGmail.text.trim(),
-              );
+              // final r = await controller.logIn(
+              //   password: controller.ctlGmail.text.trim(),
+              //   email: controller.ctlGmail.text.trim(),
+              // );
+              // if (r != null) {
+              //   Get.snackbar("Successful", "");
+              //   Get.offNamed(RouteName.profile);
+              // }
             },
             child: Text(
               "Log in",

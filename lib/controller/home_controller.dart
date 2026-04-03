@@ -9,7 +9,7 @@ class HomeController extends GetxController {
   final _isChecked = false.obs;
   final _passShow = false.obs;
   final formKey = GlobalKey<FormState>().obs;
-  final loginFormKey = GlobalKey<FormState>().obs;
+  final loginFormKey = GlobalKey().obs;
 
   final isLoading = false.obs;
   final ctlGmail = TextEditingController();

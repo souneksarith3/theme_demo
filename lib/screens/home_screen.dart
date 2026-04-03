@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               spacing: 10,
               children: [
-                Container(
+                SizedBox(
                   width: 60,
                   height: 60,
                   child: Icon(Icons.flutter_dash_outlined, size: 60,),
@@ -44,13 +44,15 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: .spaceBetween,
                 spacing: 10,
                 children: [
-                  ElevatedButton(
+                  MaterialButton(
+                    color: Colors.white,
                     onPressed: () {
                       Get.toNamed(RouteName.signUp);
                     },
                     child: Text("Sign In"),
                   ),
-                   ElevatedButton(
+                   MaterialButton(
+                    color: Colors.white,
                     onPressed: () {
                       Get.toNamed(RouteName.signIn);
                     },
