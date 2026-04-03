@@ -120,90 +120,111 @@ class SignIn extends StatelessWidget {
 
   Widget _buildForm() {
     return Form(
-      key: controller.loginFormKey.value,
-      child: Row(
+      key: controller.loginFormKey,
+      child: Column(
+        spacing: 15,
         children: [
+          //===============[EMAIL TEXTFIELD]==================
           TextFormField(
-            //controller: controller.ctlPassword,
             validator: (value) {
               if (value == null || value.isEmail == false) {
-                return "Please enter email content";
+                return "Please enter email with <.com>";
+              }
+              return null;
+            },
+            controller: controller.ctlLoginEmail,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              label: Text(
+                "Email",
+                style: TextStyle(
+                  fontFamily: AppTheme.fontFamily,
+                  color: Colors.grey,
+                ),
+              ),
+              //contentPadding: EdgeInsets.symmetric(horizontal: 5),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.orange),
+                borderRadius: BorderRadius.all(Radius.circular(18)),
+              ),
+            ),
+          ),
+          //================[PASSWORD TEXTFIELD]=============
+          TextFormField(
+            controller: controller.ctlLoginPass,
+            validator: (value) {
+              if (value == null || value.isEmpty == true) {
+                return "Please enter password...";
               }
               return null;
             },
             decoration: InputDecoration(
               label: Text(
-                "Username or Gmail",
-                style: AppTheme.lightTheme.textTheme.bodyMedium,
-              ),
-            ),
-          ),
-          Obx(
-            () => TextFormField(
-              //controller: controller.ctlPassword,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please enter password";
-                }
-                return null;
-              },
-              obscureText: controller.getPassShow,
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    controller.getPassShow == true
-                        ? controller.setPassShow(false)
-                        : controller.setPassShow(true);
-                  },
-                  icon: Icon(
-                    controller.getPassShow == true
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                  ),
-                ),
-                label: Text(
-                  "Password",
-                  style: AppTheme.lightTheme.textTheme.bodyMedium,
-                ),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              Checkbox(value: false, onChanged: (value) {}),
-              Text(
-                "Show password",
+                "Password",
                 style: TextStyle(
                   fontFamily: AppTheme.fontFamily,
-                  fontSize: 14,
-                  color: Colors.grey.shade800,
+                  color: Colors.grey,
                 ),
               ),
-            ],
-          ),
-          MaterialButton(
-            color: AppTheme.primaryLight,
-            minWidth: double.infinity,
-            height: 45,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(14)),
+              //contentPadding: EdgeInsets.symmetric(horizontal: 5),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.orange),
+                borderRadius: BorderRadius.all(Radius.circular(18)),
+              ),
             ),
-            onPressed: () async {
-              // final r = await controller.logIn(
-              //   password: controller.ctlGmail.text.trim(),
-              //   email: controller.ctlGmail.text.trim(),
-              // );
-              // if (r != null) {
-              //   Get.snackbar("Successful", "");
-              //   Get.offNamed(RouteName.profile);
-              // }
-            },
-            child: Text(
-              "Log in",
-              style: TextStyle(
-                fontFamily: AppTheme.fontFamily,
-                fontSize: 16,
-                color: Colors.white,
+          ),
+          //==============[Button]================
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            width: double.infinity,
+            height: 50,
+            child: Obx(
+              () => MaterialButton(
+                color: AppTheme.primaryLight,
+                height: double.infinity,
+                minWidth: double.infinity,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.all(
+                    Radius.circular(18),
+                  ),
+                ),
+                onPressed: controller.isLoading.value == true
+                    ? null
+                    : () async {
+                        if (controller.loginFormKey.currentState!.validate() ==
+                            true) {
+                          final rs = await controller.logIn(
+                            email: controller.ctlLoginEmail.text.trim(),
+                            password: controller.ctlLoginPass.text.trim(),
+                          );
+                          if (rs != null) {
+                            Get.snackbar(
+                              "Sign in success",
+                              "",
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                            controller.ctlLoginEmail.text = "";
+                            controller.ctlLoginPass.text = "";
+                            Get.offNamed(RouteName.profile);
+                          } else {
+                            Get.snackbar(
+                              "Error: ",
+                              "Sign in failed",
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                          }
+                        }
+                      },
+                child: controller.isLoading.value == true
+                    ? CircularProgressIndicator()
+                    : Text(
+                        "Log in",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: AppTheme.fontFamily,
+                          fontSize: 18,
+                        ),
+                      ),
               ),
             ),
           ),

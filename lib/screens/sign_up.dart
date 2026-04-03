@@ -75,53 +75,49 @@ class SignUp extends StatelessWidget {
                       ],
                     ),
                   ),
-                  MaterialButton(
-                    color: AppTheme.primaryLight,
-                    minWidth: double.infinity,
-                    height: 45,
-                    elevation: 1,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(14)),
-                    ),
-                    onPressed: () async {
-                      // Get.defaultDialog(
-                      //   textConfirm: "OK",
-                      //   title: "Validated",
-                      //   middleText: "Success to login",
-                      // );
-                      if (controller.formKey.value.currentState!.validate() ==
-                          true) {
-                        final rs = await controller.signUp(
-                          email: controller.ctlGmail.text.trim(),
-                          password: controller.ctlPassword.text.trim(),
-                        );
-                        if (rs != null) {
-                          Get.snackbar(
-                            "Sign in success",
-                            "",
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-                          controller.ctlConfirm.text = "";
-                          controller.ctlPassword.text = "";
-                          controller.ctlGmail.text = "";
-                          controller.setIsChecked(false);
-                          Get.offNamed(RouteName.profile);
-                        } else {
-                          Get.snackbar(
-                            "Error: ",
-                            "Sign up failed",
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-                        }
-                      }
-                    },
-                    child: Text(
-                      "Sign up",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: AppTheme.fontFamily,
-                        fontSize: 15,
+                  Obx(
+                    () => MaterialButton(
+                      color: AppTheme.primaryLight,
+                      minWidth: double.infinity,
+                      height: 45,
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(14)),
                       ),
+                      onPressed: controller.isLoading.value == true
+                          ? null
+                          : () async {
+                              if (controller.formKey.value.currentState!
+                                      .validate() ==
+                                  true) {
+                                final r = await controller.signUp(
+                                  email: controller.ctlGmail.text.trim(),
+                                  password: controller.ctlPassword.text.trim(),
+                                );
+                                if (r != null) {
+                                  Get.snackbar(
+                                    "Sign in success",
+                                    "",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                  );
+                                  controller.ctlConfirm.text = "";
+                                  controller.ctlPassword.text = "";
+                                  controller.ctlGmail.text = "";
+                                  controller.setIsChecked(false);
+                                  Get.offNamed(RouteName.profile);
+                                }
+                              }
+                            },
+                      child: controller.isLoading.value == true
+                          ? CircularProgressIndicator()
+                          : Text(
+                              "Sign up",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: AppTheme.fontFamily,
+                                fontSize: 15,
+                              ),
+                            ),
                     ),
                   ),
                   SizedBox(
