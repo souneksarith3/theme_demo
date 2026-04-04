@@ -4,6 +4,8 @@ import 'package:theme_demo/config/themes/app_theme.dart';
 import 'package:theme_demo/controller/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:theme_demo/controller/student_controller.dart';
+import 'package:theme_demo/screens/pages/attendance_page.dart';
+import 'package:theme_demo/screens/pages/exam_page.dart';
 import 'package:theme_demo/screens/pages/student_page.dart';
 
 class navBar {
@@ -88,7 +90,7 @@ class Profile extends StatelessWidget {
                       print(stdController.currentIndex.toString());
                       stdController.pgController.animateToPage(
                         stdController.getCurrentIndex,
-                        duration: Duration(milliseconds: 400),
+                        duration: Duration(milliseconds: 300),
                         curve: Curves.linear,
                       );
                     },
@@ -130,6 +132,8 @@ class Profile extends StatelessWidget {
       },
       children: [
         StudentPage(),
+        AttendancePage(),
+        ExamPage(),
       ],
     );
   }
