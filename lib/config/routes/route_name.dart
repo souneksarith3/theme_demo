@@ -3,4 +3,6 @@ class RouteName {
   static final signUp = "/signup";
   static final signIn = "/signin";
   static final profile = "/profile";
+  static final studentUpdate = "/studentupdate";
+  static final studentAdd = "/studentadd";
 }

@@ -7,7 +7,7 @@ class StudentController extends GetxController {
 
   final pgController = PageController();
 
-  final studentList = [
+  final List<StudentModel> studentList = [
     StudentModel(
       id: 1,
       name: "Neymar",
@@ -36,7 +36,7 @@ class StudentController extends GetxController {
       email: "olmoolmo@123.gmail.com",
       address: "Spain",
     ),
-  ];
+  ].obs;
 
   List<StudentModel> getStudentList() {
     return studentList;
