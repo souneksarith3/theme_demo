@@ -106,6 +106,23 @@ class StudentAdd extends StatelessWidget {
             controller: stdController.ctlAddress,
             label: "Address",
           ),
+          MaterialButton(
+            onPressed: () {},
+            height: 50,
+            minWidth: double.infinity,
+            color: AppTheme.primaryLight,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.all(Radius.circular(18)),
+            ),
+            child: Text(
+              "Add",
+              style: TextStyle(
+                fontFamily: AppTheme.fontFamily,
+                fontSize: 20,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -120,4 +137,5 @@ class StudentAdd extends StatelessWidget {
       controller: controller,
     );
   }
+  
 }
