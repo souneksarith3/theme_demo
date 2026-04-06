@@ -14,6 +14,7 @@ class StudentController extends GetxController {
   final selectGender = 1.obs;
 
   final stdFormKey = GlobalKey<FormState>();
+  final stdUpdateFormKey = GlobalKey<FormState>();
 
   final List<StudentModel> studentList = [
     StudentModel(
@@ -54,5 +55,4 @@ class StudentController extends GetxController {
   void setCurrentIndex(int value) {
     currentIndex.value = value;
   }
-
 }

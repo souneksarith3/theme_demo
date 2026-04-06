@@ -20,7 +20,7 @@ class StudentPage extends StatelessWidget {
             onTap: () {
               print(index.toString());
               print(std.name.toString());
-
+              Get.toNamed(RouteName.studentUpdate);
             },
             child: Container(
               padding: EdgeInsets.all(4),
