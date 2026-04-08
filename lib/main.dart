@@ -5,6 +5,7 @@ import 'package:theme_demo/config/routes/app_pages.dart';
 import 'package:theme_demo/config/routes/route_name.dart';
 import 'package:theme_demo/config/themes/app_theme.dart';
 import 'package:theme_demo/controller/home_controller.dart';
+import 'package:theme_demo/controller/student_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ void main() async {
     url: "https://dxbespatuekupdomxsla.supabase.co",
   );
   Get.put(HomeController());
+  Get.put(StudentController());
   runApp(const MyApp());
 }
 

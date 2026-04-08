@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_navigation/src/routes/circular_reveal_clipper.dart';
 import 'package:theme_demo/config/themes/app_theme.dart';
 import 'package:theme_demo/controller/student_controller.dart';
-import 'package:theme_demo/config/themes/app_theme.dart';
+import 'package:theme_demo/models/student_model.dart';
 
 class StudentAdd extends StatelessWidget {
   StudentAdd({super.key});
@@ -106,20 +107,50 @@ class StudentAdd extends StatelessWidget {
             controller: stdController.ctlAddress,
             label: "Address",
           ),
-          MaterialButton(
-            onPressed: () {},
-            height: 50,
-            minWidth: double.infinity,
-            color: AppTheme.primaryLight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadiusGeometry.all(Radius.circular(18)),
-            ),
-            child: Text(
-              "Add",
-              style: TextStyle(
-                fontFamily: AppTheme.fontFamily,
-                fontSize: 20,
-                color: Colors.white,
+          Obx(
+            () => SizedBox(
+              child: MaterialButton(
+                onPressed: stdController.isLoading.value == true
+                    ? null
+                    : () async {
+                        if (stdController.ctlName.text.isEmpty == true) {
+                          stdController.validation.value = "Please fill name";
+                          return;
+                        } else if (stdController.ctlGender.value.isEmpty) {
+                          stdController.validation.value =
+                              "Please select gender";
+                          return;
+                        } else if (stdController.ctlEmail.text.isEmpty ||
+                            stdController.ctlEmail.text.isEmail == false) {
+                          stdController.validation.value =
+                              "Please enter email type";
+                          return;
+                        } else if (stdController.ctlAddress.text.isEmpty) {
+                          stdController.validation.value =
+                              "Please enter address";
+                          return;
+                        } else {
+                          final StudentModel model = stdController
+                              .getStudentModel();
+                          await stdController.addStudent(model);
+                        }
+                      },
+                height: 50,
+                minWidth: double.infinity,
+                color: AppTheme.primaryLight,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.all(Radius.circular(18)),
+                ),
+                child: stdController.isLoading.value == true
+                    ? CircularProgressIndicator()
+                    : Text(
+                        "Add",
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontFamily,
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
               ),
             ),
           ),
@@ -137,5 +168,4 @@ class StudentAdd extends StatelessWidget {
       controller: controller,
     );
   }
-  
 }

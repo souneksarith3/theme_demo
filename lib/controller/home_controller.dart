@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:theme_demo/auth/auth_service.dart';
+import 'package:theme_demo/service/auth_service.dart';
 
 class HomeController extends GetxController {
   final _isChecked = false.obs;
